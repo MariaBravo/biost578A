@@ -10,6 +10,18 @@ date: `r format(Sys.Date(), format="%B %d, %Y")`
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><tiny>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</tiny></a>.
 
+Prerequisites
+==========
+Before running the preview in Rstudio
+- you will need to make sure that you have the following packages installed: knitr, data.table, microbenchmark.
+- Make sure that you have clicked on the knitr package under the packages menu.
+- run the chunk of code below in the Console
+```{r eval=FALSE}
+source("http://bioconductor.org/biocLite.R")
+biocLite(c("org.Hs.eg.db"))
+```
+
+
 Motivation
 ==========
 
@@ -584,7 +596,9 @@ DF2 <- as.data.frame(DT2)
 setkey(DT1, x); setkey(DT2, x)
 #microbenchmark( DT=merge(DT1, DT2), DF=merge.data.frame(DF1, DF2), replications=5)
 ```
-EAR: microbenchmark command returned error: measure negative execution time. 
+commented out the microbenchmark( DT=merge(DT1, DT2), DF=merge.data.frame(DF1, DF2), replications=5)
+Above microbenchmark command retures error: Measured negative execution time! Please investigate and/or contact the package author.
+
 
 Subset joins
 ============
@@ -816,6 +830,7 @@ Here we will make use of the [Bioconductor](http://www.bioconductor.org) project
 
 ```{r eval=FALSE}
 # You only need to run this once
+# The first time you run on a machine, change eval to TRUE. Or, you can run this part separately in the console
 source("http://bioconductor.org/biocLite.R")
 biocLite(c("org.Hs.eg.db"))
 ```
@@ -916,8 +931,8 @@ A view is a virtual table that is a result of SQL SELECT statement. A view conta
 
 Creating your own SQLite database in R
 ===================================
-
-```{r sqlite-ex, cache=FALSE}
+The following R code does not work because unable to connect to dbname.
+```{r sqlite-ex, cache=FALSE, eval=FALSE}
 db <- dbConnect(SQLite(), dbname="./Data/SDY61/SDY61.sqlite")
 dbWriteTable(conn = db, name = "hai", value = "./Data/SDY61/hai_result.txt", row.names = FALSE, header = TRUE, sep="\t")
 dbWriteTable(conn = db, name = "cohort", value = "./Data/SDY61/arm_or_cohort.txt", row.names = FALSE, header = TRUE, sep="\t")
@@ -927,7 +942,7 @@ dbWriteTable(conn = db, name = "cohort", value = "./Data/SDY61/arm_or_cohort.txt
 Creating your own SQLite database in R (suite)
 =============================================
 
-```{r some-queries, cache=FALSE}
+```{r some-queries, cache=FALSE, eval=FALSE}
 dbListFields(db, "hai")
 dbListFields(db, "cohort")
 
